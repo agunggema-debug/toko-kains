@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Kain AI - Rekomendasi Personal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Gaya kustom untuk tampilan yang lebih enak dilihat */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <header class="bg-indigo-600 shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <h1 class="text-3xl font-bold text-white">Toko Kain Pintar 🛍️</h1>
+            <p class="text-indigo-200">Temukan kain impianmu dengan rekomendasi personal</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+
+        <div class="bg-white p-6 md:p-8 rounded-lg card-shadow mb-10">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Input Preferensi Kain</h2>
+            <form action="/recommend" method="POST" class="space-y-4">
+                <div>
+                    <label for="preferensi_jenis" class="block text-sm font-medium text-gray-700">Jenis Kain yang Disukai:</label>
+                    <select id="preferensi_jenis" name="preferensi_jenis" required
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border">
+                        <option value="">-- Pilih Jenis Kain --</option>
+                        {% for jenis in jenis_kain %}
+                            <option value="{{ jenis }}" {% if jenis|lower == preferensi_dipilih|lower %}selected{% endif %}>{{ jenis }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                    Dapatkan Rekomendasi
+                </button>
+            </form>
+        </div>
+
+        {% if rekomendasi %}
+        <section class="mt-10">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-6 border-b pb-2">✨ Hasil Rekomendasi Personal</h2>
+            
+            {% if preferensi_dipilih %}
+                <p class="mb-4 text-lg text-gray-700">Kami merekomendasikan kain berikut berdasarkan kesukaan Anda pada **{{ preferensi_dipilih.title() }}**:</p>
+            {% endif %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for kain in rekomendasi %}
+                <div class="bg-white rounded-xl overflow-hidden card-shadow hover:shadow-xl transition duration-300 ease-in-out">
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-indigo-600 mb-2">{{ kain.nama }}</h3>
+                        <p class="text-gray-600 mb-4">
+                            <span class="font-medium text-gray-800">Jenis:</span> {{ kain.jenis|title }} | 
+                            <span class="font-medium text-gray-800">Warna:</span> {{ kain.warna|title }}
+                        </p>
+                        <ul class="text-sm text-gray-500 space-y-1">
+                            <li><span class="font-medium">Motif:</span> {{ kain.motif|title }}</li>
+                            <li><span class="font-medium">Kegunaan:</span> {{ kain.kegunaan }}</li>
+                        </ul>
+                    </div>
+                    <div class="bg-indigo-50 p-5 border-t">
+                        <p class="text-lg font-bold text-green-600">{{ kain.harga }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+    </main>
+
+    <footer class="bg-gray-800 mt-10">
+        <div class="container mx-auto px-4 py-4 text-center text-gray-400 text-sm">
+            Aplikasi Rekomendasi Kain Personal (Simulasi AI) | Dibuat dengan Flask & Tailwind CSS
+        </div>
+    </footer>
+</body>
+</html>
