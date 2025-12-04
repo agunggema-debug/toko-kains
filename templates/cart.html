@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keranjang Belanja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <header class="bg-indigo-600 shadow-md">
+      <div class="container mx-auto px-4 py-4">
+        <h1 class="text-3xl font-bold text-white">Keranjang Belanja 🛍️</h1>
+        <a href="/" class="text-indigo-200 hover:text-white transition duration-150">&larr; Lanjutkan Belanja</a>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10">
+      <div class="bg-white p-8 rounded-lg shadow-xl">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Isi Keranjang Anda</h2>
+
+        {% if cart_items %}
+        <ul class="divide-y divide-gray-200">
+          {% for item in cart_items %}
+          <li class="py-4 flex justify-between items-center">
+            <div class="flex flex-col">
+              <span class="text-lg font-medium text-gray-900">{{ item.name }}</span>
+              <span class="text-sm text-gray-500">{{ item.price }}</span>
+            </div>
+            <div class="flex items-center space-x-4">
+              <a href="{{ url_for('update_cart', item_id=item.id, action='decrement') }}" class="text-gray-500 hover:text-indigo-600 border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center transition duration-150">
+                -
+              </a>
+              <span class="text-md font-bold text-indigo-600">Qty: {{ item.qty }}</span>
+              <a href="{{ url_for('update_cart', item_id=item.id, action='remove') }}" class="text-red-500 hover:text-red-700 ml-4"> &times; </a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <div class="mt-8 pt-4 border-t-2 border-gray-300 flex justify-between items-center">
+                    <span class="text-xl font-bold text-gray-800">TOTAL BELANJA:</span>
+                    <span class="text-2xl font-extrabold text-green-700">{{ total_belanja }}</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-200 flex justify-end">
+                    </div>
+                    
+        {% else %}
+        <p class="text-lg text-gray-500">Keranjang Anda kosong. Yuk, cari kain impianmu!</p>
+        <a href="/" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">Mulai Rekomendasi</a>
+        {% endif %}
+      </div>
+
+      {% if cart_items %}
+      <div>
+        <div class="mt-8 pt-4 flex justify-between items-center">
+        <a href="{{ url_for('clear_cart') }}" class="px-6 py-6 text-md font-medium rounded-md text-red-600 border-red-600 hover:bg-red-50 transition duration-150 ease-in-out">
+           Kosongkan Keranjang 
+          </a>
+        
+        <button class="px-6 py-3 text-lg font-medium rounded-md text-white bg-green-600 hover:bg-green-800">Lanjut ke Pembayaran</button>
+      </div>
+      {% endif %}
+    </main>
+  </body>
+</html>
