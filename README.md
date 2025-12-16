@@ -25,12 +25,3 @@ Aplikasi web prototipe yang dibangun menggunakan Flask dan Tailwind CSS untuk me
 
 ---
 
-## 🚀 Instalasi dan Menjalankan Proyek
-
-Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini secara lokal.
-
-### 1. Klon Repositori
-
-```bash
-git clone [https://github.com/USERNAME_ANDA/NAMA_REPOSITORI_ANDA.git](https://github.com/USERNAME_ANDA/NAMA_REPOSITORI_ANDA.git)
-cd NAMA_REPOSITORI_ANDA
